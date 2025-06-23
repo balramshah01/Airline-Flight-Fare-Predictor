@@ -11,7 +11,7 @@ st.set_page_config(page_title="Flight Fare Predictor BDT", page_icon="✈️", l
 # Sidebar
 st.sidebar.title("📌 Project Overview")
 st.sidebar.write("""
-This project predicts international flight fares from Bangladesh using a machine learning model.
+This project predicts international Airline Flight Fares from Bangladesh using a machine learning model.
 Developed as part of Dursikshya Data Science Certificate Project by Balram Shah.
 """)
 st.sidebar.markdown("---")
@@ -30,6 +30,29 @@ st.markdown("""
 <h1 style='text-align:center; color:#1E90FF;'>✈️ Flight Fare Predictor BD</h1>
 <h4 style='text-align:center;'>Project by Balram Shah | Dursikshya 2025</h4>
 """, unsafe_allow_html=True)
+
+
+# Charts Section
+st.markdown("### 📈 Show EDA Charts")
+
+charts = [
+    ("Average_Fare_By_Top_Airlines.png", "Average Fare By Top Airlines"),
+    ("Average_Fare_By_Top_Routes.png", "Average Fare By Top Routes"),
+    ("Average_Fare_By_Departure_Hour.png", "Average Fare By Departure Hour"),
+    ("Average_Fare_by_Season.png", "Average Fare by Season"),
+    ("Base_Fare_vs_Tax_&_Surcharge_by_class.png", "BaseFare vs Tax & Surcharge by class"),
+    ("Fare_Distribution_By_Airline_Category.png", "Fare Distribution By Airline Category"),
+    ("Fare_Disribution_Direct_vs_Stopover.png", "Fare Distribution Direct vs Stopover"),
+    ("Flight_Share_BY_Class.png", "Flight Share BY Class")
+]
+
+for file, caption in charts:
+    with st.expander(f"Click to view: {caption}"):
+        if os.path.exists(file):
+            st.image(file, caption=caption)
+        else:
+            st.warning(f"⚠️ '{file}' not found. Please upload it to display this chart.")
+
 
 # Load model and scaler
 model = joblib.load("Airline_rf_model.joblib")
@@ -132,22 +155,6 @@ if st.button("🎯 Predict Fare"):
     except Exception as e:
         st.error(f"❌ Error: {e}")
 
-# Optional Charts Section
-st.markdown("### 📈 Show EDA Charts")
-with st.expander("Click to view visual insights"):
-    chart_files = [
-        ("eda_chart1.png", "Avg Fare by Airline"),
-        ("eda_chart2.png", "Popular Routes"),
-        ("eda_chart3.png", "Flight Duration vs Fare"),
-        ("eda_chart4.png", "Seasonal Fare Trends"),
-        ("eda_chart5.png", "Fare by Booking Type"),
-        ("eda_chart6.png", "Fare by Flight Class")
-    ]
-    for file, caption in chart_files:
-        if os.path.exists(file):
-            st.image(file, caption=caption, use_column_width=True)
-        else:
-            st.warning(f"⚠️ '{file}' not found. Please upload it to display this chart.")
 
 # Footer
 st.markdown("""
