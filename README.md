@@ -58,6 +58,6 @@ This project focuses on predicting international flight ticket prices originatin
 ---
 
 ## 🚀 Run App_link
-https://balram-airline-flight-fare-predictor.streamlit.app/
+https://balram-airline-flight-fare-predictor.streamlit.app
 
 
