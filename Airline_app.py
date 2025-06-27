@@ -8,28 +8,85 @@ import os
 # Page config
 st.set_page_config(page_title="Flight Fare Predictor BDT", page_icon="✈️", layout="wide")
 
-# Sidebar
-st.sidebar.title("📌 Project Overview")
-st.sidebar.write("""
-This project predicts international Airline Flight Fares from Bangladesh using a machine learning model.
-Developed as part of Dursikshya Data Science Certificate Project by Balram Shah.
-""")
+import streamlit as st
+
+st.sidebar.title("📌 Flight Fare Predictor")
+
+with st.sidebar.expander("🔎 Project Overview", expanded=True):
+    st.markdown("""
+    This app predicts international airline flight fares from Bangladesh using a robust machine learning model.
+    It takes multiple flight factors into account to provide reliable fare estimates for better travel planning.
+
+    Developed as part of the *Dursikshya Data Science Certificate* by **Balram Shah**, showcasing practical data science skills.
+    """)
+
+with st.sidebar.expander("📊 Key Visual Insights"):
+    insights = [
+        "Avg Fare by Airline",
+        "Route Popularity",
+        "Average Fare by Departure Hour",
+        "Seasonality Impact",
+        "Base Fare vs Tax & Surcharge by Class",
+        "Fare Distribution by Airline Categories",
+        "Fare Distribution Direct vs Stopover",
+        "Flight Share by Class"
+    ]
+    for i in insights:
+        st.markdown(f"- {i}")
+
+with st.sidebar.expander("💡 How to Use"):
+    st.markdown("""
+    - Use filters above to customize your fare predictions.
+    - Explore interactive charts for deeper insights.
+    - Hover over chart points to see detailed data.
+    """)
+
+with st.sidebar.expander("📞 Contact / About"):
+    st.markdown("""
+    Developed by **Balram Shah**  
+    [GitHub Repository](https://github.com/balramshah01)  
+    Part of the Dursikshya Data Science Certificate  
+    """)
+
 st.sidebar.markdown("---")
-st.sidebar.subheader("🔍 Key Visual Insights")
-st.sidebar.markdown("""
-- 📊 Avg Fare by Airline
-- 🛫 Route Popularity
-- ⏰ Time vs Fare
-- 🏷️ Seasonality Impact
-- 🎟️ Booking & Class Trends
-- ✈️ Flight Type Comparison
-""")
+st.sidebar.markdown("<small style='color:gray'>© 2025 Balram Shah. All rights reserved.</small>", unsafe_allow_html=True)
+
 
 # Header
-st.markdown("""
-<h1 style='text-align:center; color:#1E90FF;'>✈️ Flight Fare Predictor BD</h1>
-<h4 style='text-align:center;'>Project by Balram Shah | Dursikshya 2025</h4>
-""", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; font-size: 40px; font-weight: 900; color: #768b45;'>✈️ Flight Fare Predictor BDT</div>", unsafe_allow_html=True)
+st.markdown("<div style='text-align: center; font-size: 18px; color: #eec76b;'>Project by Balram Shah | Dursikshya 2025</div>", unsafe_allow_html=True)
+
+
+# ===== KPI METRICS SECTION =====
+st.markdown("### 📊 Key Performance Indicators")
+
+try:
+    # Load cleaned dataset
+    df = pd.read_csv("Bangladesh_flight_fare_prediction_cleaned_data.csv")
+
+    # Create 3 columns for KPI display
+    kpi1, kpi2, kpi3 = st.columns(3)
+
+    with kpi1:
+        total_records = df.shape[0]
+        st.metric(label="Total Flights", value=f"{total_records:,}")
+
+    with kpi2:
+        if 'Total Fare (BDT)' in df.columns:
+            avg_fare = round(df['Total Fare (BDT)'].mean(), 2)
+            st.metric(label="Average Fare (BDT)", value=f"{avg_fare:,}")
+        else:
+            st.metric(label="Average Fare (BDT)", value="N/A")
+
+    with kpi3:
+        if 'Airline' in df.columns:
+            total_airlines = df['Airline'].nunique()
+            st.metric(label="Airlines Covered", value=total_airlines)
+        else:
+            st.metric(label="Airlines Covered", value="N/A")
+
+except Exception as e:
+    st.warning(f"⚠️ Could not load KPI metrics: {e}")
 
 
 # Charts Section
@@ -159,5 +216,5 @@ if st.button("🎯 Predict Fare"):
 # Footer
 st.markdown("""
     <hr style="height:2px;border:none;background-color:#666;" />
-    <p style="text-align:center;font-size:13px;">© 2025 Balram Shah • Flight Fare Prediction App | Dursikshya Internship</p>
+    <p style="text-align:center;font-size:13px;">© 2025 Balram Shah • Flight Fare Prediction App | Dursikshya</p>
 """, unsafe_allow_html=True)
